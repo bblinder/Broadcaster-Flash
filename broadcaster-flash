@@ -1,0 +1,49 @@
+#!/bin/bash
+
+## Automated script for SSHing into Livestream Broadcaster v1.
+
+current_directory=$(pwd -P)
+
+## For use in a later version.
+#CDN_KEYFILE=$(path/to/ls-remote.pem)
+
+if [[ ! -f /tmp/.firmware_upgrade ]]
+then
+	cp $current_directory/.firmware_upgrade /tmp/
+fi
+ssh_to_unit(){
+	ssh -i ~/.ssh/ls-remote.pem root@$IP_address 'cat /tmp/do_upgrade.txt >> .profile' && ssh -i ~/.ssh/ls-remote.pem root@$IP_address
+	
+}
+copy_firmware(){
+	scp -i ~/.ssh/ls-remote.pem /tmp/.firmware_upgrade root@$IP_address:/tmp && echo "sh /tmp/.firmware_upgrade" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
+
+}
+keyfile_check(){
+	if [[ ! -f ~/.ssh/ls-remote.pem ]]
+	then
+		echo "SSH Keyfile Not found!"
+	fi
+}
+echo "Please enter the public-facing IP address of the Broadcaster you'll be flashing :"
+read IP_address
+if [[ $IP_address == 192.168.* ]]
+then
+	echo "This is an internal IP address. The user needs to provide a public-facing address."
+	echo "Would you still like to continue? [y/n]"
+	read response
+	if [[ $response == "y" ]]
+	then
+		echo "Attempting to connect..."
+		keyfile_check
+		copy_firmware
+		ssh_to_unit
+	else
+		exit 1
+	fi
+else
+	echo "Attempting to connect..."
+	keyfile_check
+	copy_firmware
+	ssh_to_unit
+fi

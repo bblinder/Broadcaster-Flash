@@ -1,0 +1,30 @@
+#!/bin/bash
+
+INSTALLED_VERSION=$(cat /etc/VERSION)
+url="https://cdn.livestream.com/broadcaster/firmware/latest.json"
+filename=$(curl -sk https://cdn.livestream.com/broadcaster/firmware/latest.json | egrep -i '(box)|(.bin)' | awk '{ print $9 }' | sed -e 's/https/http/g' -e 's/"/\ /g')
+CURRENT_VERSION=$(curl -sk https://cdn.livestream.com/broadcaster/firmware/latest.json | egrep -i '(box)|(bin)' | awk '{ print $9 }' | sed -e 's/https/http/g' -e 's/"/\ /g' -e 's/.*box_//' -e 's/.bin/\ /')
+
+echo "********************************************************"
+echo "Most recent firmware version: '$CURRENT_VERSION'"
+echo "Firmware version on device: '$INSTALLED_VERSION'"
+echo "Press (1) to flash most recent firmware version."
+echo "Press (2) to attempt manually."
+
+read input
+
+## the firmware version below can be updated in one of three ways:
+## (1) manually replaced whenever there's a new version/release.
+## (2) ask for user input, and have them manually enter the CDN link to the latest release.
+## (3) use cURL to automatically pull the latest .bin file from the CDN host.
+## In this case, we've gone with option (3).
+
+case "$input" in
+	1 )
+		fw_upgrade $filename ;;
+	2)
+		exit 0 ;;
+	*)
+		exit 0 ;;
+esac
+
