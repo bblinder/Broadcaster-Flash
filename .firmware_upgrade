@@ -11,6 +11,7 @@ CURRENT_VERSION=$(curl -sk https://cdn.livestream.com/broadcaster/firmware/lates
 echo "********************************************************"
 echo "Most recent firmware version: '$CURRENT_VERSION'"
 echo "Firmware version on device: '$INSTALLED_VERSION'"
+echo "********************************************************"
 echo "Press (1) to flash most recent firmware version."
 echo "Press (2) to attempt manually."
 
