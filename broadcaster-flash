@@ -5,26 +5,35 @@
 current_directory=$(pwd)
 
 ## For use in a later version.
-#CDN_KEYFILE=$(path/to/ls-remote.pem)
+#getKeyfile=$(curl path/to/ls-remote.pem)
 
 if [[ ! -f /tmp/.firmware_upgrade ]]
 then
 	cp $current_directory/.firmware_upgrade /tmp/
 fi
-ssh_to_unit(){
-	ssh -i ~/.ssh/ls-remote.pem root@$IP_address 'cat /tmp/do_upgrade.txt >> .profile' && ssh -i ~/.ssh/ls-remote.pem root@$IP_address
-	
-}
-copy_firmware(){
-	scp -i ~/.ssh/ls-remote.pem /tmp/.firmware_upgrade root@$IP_address:/tmp && echo "sh /tmp/.firmware_upgrade" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
 
-}
 keyfile_check(){
 	if [[ ! -f ~/.ssh/ls-remote.pem ]]
 	then
 		echo "SSH Keyfile Not found!"
 	fi
 }
+copy_firmware(){
+	scp -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 /tmp/.firmware_upgrade root@$IP_address:/tmp && echo "sh /tmp/.firmware_upgrade" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
+
+}
+copy_firmware_diffPort(){
+	scp -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 -p $newPort /tmp/.firmware_upgrade root@$IP_address:/tmp && echo "sh /tmp/.firmware_upgrade" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
+
+}
+ssh_to_unit(){
+	ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 root@$IP_address 'cat /tmp/do_upgrade.txt >> .profile' && ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 root@$IP_address
+	
+}
+ssh_to_unit_diffPort(){
+	ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 -p $newPort root@$IP_address 'cat /tmp/do_upgrade.txt >> .profile' && ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 root@$IP_address
+}
+
 echo "Please enter the public-facing IP address of the Broadcaster you'll be flashing :"
 read IP_address
 if [[ $IP_address == 192.168.* ]]
@@ -34,16 +43,21 @@ then
 	read response
 	if [[ $response == "y" ]]
 	then
-		echo "Attempting to connect..."
+		echo "Attempting to connect via TCP 22..."
 		keyfile_check
-		copy_firmware
+		copy_firmware || { echo "Connection failed. You may need to attempt via another port." \
+		echo "Enter Port :" && read newPort ; if [[ $newPort -gt 0 ]] ; then \
+		echo "Attempting through port $newPort" ; copy_firmware_diffPort && ssh_to_unit_diffPort ; else exit 0 ; fi; } || { exit 1; }
 		ssh_to_unit
+		exit 0
 	else
 		exit 1
 	fi
 else
-	echo "Attempting to connect..."
+	echo "Attempting to connect via TCP 22..."
 	keyfile_check
-	copy_firmware
+	copy_firmware || { echo "Connection failed. You may need to attempt via another port." \ 
+		echo "Enter Port :" && read newPort ; if [[ $newPort -gt 0 ]] ; then \
+		echo "Attempting through port $newPort" ; copy_firmware_diffPort && ssh_to_unit_diffPort ; else exit 0 ; fi; } || { exit 1; }
 	ssh_to_unit
 fi
