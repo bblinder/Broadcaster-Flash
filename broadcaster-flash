@@ -2,7 +2,7 @@
 
 ## Automated script for SSHing into Livestream Broadcaster v1.
 
-current_directory=$(pwd -P)
+current_directory=$(pwd)
 
 ## For use in a later version.
 #CDN_KEYFILE=$(path/to/ls-remote.pem)
