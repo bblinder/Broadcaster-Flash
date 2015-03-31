@@ -46,7 +46,7 @@ then
 		echo "Attempting to connect via TCP 22..."
 		keyfile_check
 		copy_firmware || { echo "Connection failed. You may need to attempt via another port." \
-		echo "Enter Port :" && read newPort ; if [[ $newPort -gt 0 ]] ; then \
+		echo "Enter new Port, or press CTRL-C to cancel :" && read newPort ; if [[ $newPort -gt 0 ]] ; then \
 		echo "Attempting through port $newPort" ; copy_firmware_diffPort && ssh_to_unit_diffPort ; else exit 0 ; fi; } || { exit 1; }
 		ssh_to_unit
 		exit 0
