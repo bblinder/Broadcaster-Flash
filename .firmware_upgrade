@@ -4,9 +4,9 @@ INSTALLED_VERSION=$(cat /etc/VERSION)
 
 url="https://cdn.livestream.com/broadcaster/firmware/latest.json"
 
-filename=$(curl -sk https://cdn.livestream.com/broadcaster/firmware/latest.json | egrep -i '(box)|(.bin)' | awk '{ print $9 }' | sed -e 's/https/http/g' -e 's/"/\ /g')
+filename=$(curl -sk https://cdn.livestream.com/broadcaster/firmware/latest.json | egrep -i '(box)|(.bin)' | awk '{ print $9 }' | sed -e 's/https/http/g' -e 's/"//g')
 
-CURRENT_VERSION=$(curl -sk https://cdn.livestream.com/broadcaster/firmware/latest.json | egrep -i '(box)|(bin)' | awk '{ print $9 }' | sed -e 's/https/http/g' -e 's/"/\ /g' -e 's/.*box_//' -e 's/.bin/\ /')
+CURRENT_VERSION=$(curl -sk https://cdn.livestream.com/broadcaster/firmware/latest.json | egrep -i '(box)|(bin)' | awk '{ print $9 }' | sed -e 's/https/http/g' -e 's/"//g' -e 's/.*box_//' -e 's/.bin//')
 
 echo "********************************************************"
 echo "Most recent firmware version: '$CURRENT_VERSION'"
