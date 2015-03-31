@@ -9,12 +9,7 @@ current_directory=$(pwd)
 
 flash_location=$(echo $0 | sed -e 's/broadcaster-flash//')
 
-cd $flash_location
-
-if [[ ! -f /tmp/.firmware_upgrade ]]
-then
-	cp $flash_location/.firmware_upgrade /tmp/
-fi
+cd $flash_location && cp $flash_location/.firmware_upgrade /tmp/
 
 keyfile_check(){
 	if [[ ! -f ~/.ssh/ls-remote.pem ]]
