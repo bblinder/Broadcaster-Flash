@@ -18,14 +18,14 @@ keyfile_check(){
 	fi
 }
 netcat(){
-	nc $IP_address 22 < /dev/null &> /dev/null
+	nc -G 7 $IP_address 22 < /dev/null &> /dev/null
 	if [[ $? -ne 0 ]]
 	then
 		echo "WARNING: Broadcaster not reachable via TCP 22!"
 	fi
 }
 netcat_diffPort(){
-	nc $IP_address $newPort < /dev/null &> /dev/null
+	nc -G 7 $IP_address $newPort < /dev/null &> /dev/null
 	if [[ $? -ne 0 ]]
 	then
 		echo "WARNING: Broadcaster not reachable via TCP $newPort !"
