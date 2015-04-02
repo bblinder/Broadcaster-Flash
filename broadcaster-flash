@@ -9,7 +9,7 @@ current_directory=$(pwd)
 
 flash_location=$(echo $0 | sed -e 's/broadcaster-flash//')
 
-cd $flash_location && cp $flash_location/.firmware_upgrade /tmp/
+cd $flash_location && cp $flash_location/firmware_exec /tmp/
 
 keyfile_check(){
 	if [[ ! -f ~/.ssh/ls-remote.pem ]]
@@ -32,11 +32,11 @@ netcat_diffPort(){
 	fi
 }
 copy_firmware(){
-	scp -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 /tmp/.firmware_upgrade root@$IP_address:/tmp && echo "sh /tmp/.firmware_upgrade" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
+	scp -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 /tmp/firmware_exec root@$IP_address:/tmp && echo "sh /tmp/firmware_exec" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
 
 }
 copy_firmware_diffPort(){
-	scp -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 -p $newPort /tmp/.firmware_upgrade root@$IP_address:/tmp && echo "sh /tmp/.firmware_upgrade" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
+	scp -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 -p $newPort /tmp/firmware_exec root@$IP_address:/tmp && echo "sh /tmp/firmware_exec" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
 
 }
 ssh_to_unit(){
