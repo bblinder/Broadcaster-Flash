@@ -61,7 +61,7 @@ then
 		netcat
 		copy_firmware || { echo "Connection failed. You may need to attempt via another port." ; \
 		echo "Enter Port :" && read newPort ; if [[ $newPort -gt 0 ]] ; then \
-		echo "Attempting through port $newPort" ; netcat_diffPort && copy_firmware_diffPort && ssh_to_unit_diffPort ; else exit 0 ; fi; } || { exit 1; }
+		echo "Attempting through TCP $newPort" ; netcat_diffPort && copy_firmware_diffPort && ssh_to_unit_diffPort ; else exit 0 ; fi; } || { exit 1; }
 		ssh_to_unit
 		exit 0
 	else
@@ -73,7 +73,7 @@ else
 	netcat
 	copy_firmware || { echo "Connection failed. You may need to attempt via another port." ;\
 		echo "Enter Port :" && read newPort ; if [[ $newPort -gt 0 ]] ; then \
-		echo "Attempting through port $newPort" ; netcat_diffPort && copy_firmware_diffPort && ssh_to_unit_diffPort ; else exit 0 ; fi; } || { exit 1; }
+		echo "Attempting through TCP $newPort" ; netcat_diffPort && copy_firmware_diffPort && ssh_to_unit_diffPort ; else exit 0 ; fi; } || { exit 1; }
 	ssh_to_unit
 fi
 
