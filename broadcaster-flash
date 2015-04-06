@@ -2,7 +2,7 @@
 
 ## Automated script for SSHing into Livestream Broadcaster v1.
 
-current_directory=$(pwd)
+user_directory=$(pwd)
 
 ## For use in a later version.
 #getKeyfile=$(curl path/to/ls-remote.pem)
