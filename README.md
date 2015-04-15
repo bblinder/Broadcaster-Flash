@@ -31,3 +31,4 @@ What you should see:
 `Press (1) to flash most recent firmware version.`
 
 `Press (2) to attempt manually.`
+`To update manually, enter 'fw_upgrade http://cdn.livestream.com/broadcaster/firmware/box_v1.2.1r22721.bin'`
