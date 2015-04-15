@@ -22,13 +22,12 @@ What you should see:
 
 `********************************************************`
 
-`Most recent firmware version: 'v1.2.1r22338'`
+`Most recent firmware version: '<firmware version on CDN>'`
 
-`Firmware version on device: '1.2.1r22338'`
+`Firmware version on device: '<firmware version on device>'`
 
 `********************************************************`
 
 `Press (1) to flash most recent firmware version.`
 
 `Press (2) to attempt manually.`
-`To update manually, enter 'fw_upgrade http://cdn.livestream.com/broadcaster/firmware/box_v1.2.1r22721.bin'`
