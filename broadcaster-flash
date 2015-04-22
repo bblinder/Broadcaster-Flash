@@ -47,6 +47,7 @@ ssh_to_unit_diffPort(){
 	ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 -p $newPort root@$IP_address 'cat /tmp/do_upgrade.txt >> .profile' && ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 root@$IP_address
 }
 
+## Now for the actual work
 echo "********************************************************"
 echo "Broadcaster v1 Reflash Tool!"
 echo "Be sure to skim the README file if you run into trouble."
