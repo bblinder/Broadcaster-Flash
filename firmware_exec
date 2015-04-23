@@ -28,7 +28,7 @@ case "$input" in
 		fw_upgrade $filename ;;
 	## This is the newest actual firmware, though the Broadcaster will as of now still reference the original CDN link above.
 	2)
-		echo "To update manually, enter 'fw_upgrade http://cdn.livestream.com/broadcaster/firmware/box_v1.2.1r22721.bin'" && exit 0 ;;
+		echo "To update manually, we recommend using 'fw_upgrade http://cdn.livestream.com/broadcaster/firmware/box_v1.2.1r22721.bin'" && exit 0 ;;
 	*)
 		exit 0 ;;
 esac

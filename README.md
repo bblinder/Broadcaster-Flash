@@ -1,7 +1,7 @@
 A Broadcaster v1 reflash tool
 
 Requires the use of a SSH keyfile (if you do not know what SSH is, briefly read up on it before proceeding.)
-If you do not have the keyfile on your system, please obtain one from Henry or Brandon.
+If you do not have the keyfile on your system, please obtain one from Henry, Brandon, or Ronald.
 
 To use the Tool, simply double-click on the file/script called `broadcaster-flash` -- or run it from its own directory by executing:
 
