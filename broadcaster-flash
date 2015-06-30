@@ -17,32 +17,33 @@ keyfile_check(){
 		echo "SSH Keyfile Not found!"
 	fi
 }
+
 netcat(){
 	nc -G 7 $IP_address 22 < /dev/null &> /dev/null
-	if [[ $? -ne 0 ]]
-	then
+	if [[ $? -ne 0 ]]; then
 		echo "WARNING: Broadcaster not reachable via TCP 22!"
 	fi
 }
+
 netcat_diffPort(){
 	nc -G 7 $IP_address $newPort < /dev/null &> /dev/null
-	if [[ $? -ne 0 ]]
-	then
+	if [[ $? -ne 0 ]] ; then
 		echo "WARNING: Broadcaster not reachable via TCP $newPort !"
 	fi
 }
+
 copy_firmware(){
 	scp -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 /tmp/firmware_exec root@$IP_address:/tmp && echo "sh /tmp/firmware_exec" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
-
 }
+
 copy_firmware_diffPort(){
 	scp -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 -p $newPort /tmp/firmware_exec root@$IP_address:/tmp && echo "sh /tmp/firmware_exec" > /tmp/do_upgrade.txt && scp -i ~/.ssh/ls-remote.pem /tmp/do_upgrade.txt root@$IP_address:/tmp
+}
 
-}
 ssh_to_unit(){
-	ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 root@$IP_address 'cat /tmp/do_upgrade.txt >> .profile' && ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 root@$IP_address
-	
+	ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 root@$IP_address 'cat /tmp/do_upgrade.txt >> .profile' && ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 root@$IP_address	
 }
+
 ssh_to_unit_diffPort(){
 	ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 -p $newPort root@$IP_address 'cat /tmp/do_upgrade.txt >> .profile' && ssh -i ~/.ssh/ls-remote.pem -o ConnectTimeout=20 root@$IP_address
 }
@@ -60,8 +61,7 @@ then
 	echo "This is an internal IP address. The user needs to provide a public-facing address."
 	echo "Would you still like to continue? [y/n]"
 	read response
-	if [[ $response == "y" ]]
-	then
+	if [[ $response == "y" ]] ; then
 		echo "Attempting to connect via TCP 22..."
 		keyfile_check
 		netcat
