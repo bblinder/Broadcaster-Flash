@@ -12,7 +12,7 @@ flash_location=$(echo $0 | sed -e 's/broadcaster-flash//')
 cd $flash_location && cp $flash_location/firmware_exec /tmp/
 
 keyfile_check(){
-	if [[ ! -f ~/.ssh/ls-remote.pem ]] ; then
+	if [[ ! -f $HOME/.ssh/ls-remote.pem ]] ; then
 		echo "SSH Keyfile Not found!"
 	fi
 }
@@ -55,8 +55,7 @@ echo "********************************************************"
 echo
 echo "Please enter the public-facing IP address of the Broadcaster you'll be flashing :"
 read IP_address
-if [[ $IP_address == 192.168.* ]]
-then
+if [[ $IP_address == 192.168.* ]] ; then
 	echo "This is an internal IP address. The user needs to provide a public-facing address."
 	echo "Would you still like to continue? [y/n]"
 	read response
